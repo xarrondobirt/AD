@@ -58,8 +58,6 @@ public class Ejercicio4 {
 
             System.out.print("Introduzca el DNI (con letra) del personaje para el control de peso: ");
             String scannerDni = scanner.nextLine();
-            System.out.print("Introduzca su peso actual: ");
-            int scannerPeso = Integer.parseInt(scanner.nextLine());
 
             int posicion = 0;
 
@@ -101,15 +99,17 @@ public class Ejercicio4 {
                 // Verificar si el dni introducido es el de algún superhéroe
                 if (strDni.equals(scannerDni)) {
                     bExiste = true;
+                    System.out.print("Introduzca su peso actual: ");
+                    int scannerPeso = Integer.parseInt(scanner.nextLine());
 
                     // Calcular la diferencia de peso
                     int diferenciaPeso = peso - scannerPeso;
                     if (diferenciaPeso == 0) {
                         System.out.println(strEgo + " se mantiene en su peso");
                     } else if (diferenciaPeso < 0) {
-                        System.out.println(strEgo + " ha engordado " + Math.abs(diferenciaPeso));
+                        System.out.println(strEgo + " ha engordado " + Math.abs(diferenciaPeso) + " kilos");
                     } else {
-                        System.out.println(strEgo + " ha adelgazado " + Math.abs(diferenciaPeso));
+                        System.out.println(strEgo + " ha adelgazado " + Math.abs(diferenciaPeso) + " kilos");
                     }
 
                     break;
@@ -120,6 +120,7 @@ public class Ejercicio4 {
             // El dni introducido no corresponde a ningún superhéroe
             if (!bExiste) {
                 System.err.println("El dni introducido no existe");
+                System.exit(0);
             }
 
             //---------------------------------APARTADO C-------------------------------//
@@ -129,6 +130,7 @@ public class Ejercicio4 {
             posicion = 0;
             rf.seek(posicion);
             List<Superheroe> superheroes = new ArrayList<>();
+            bExiste = false;  // reseteamos el valor para el último apartado
 
             while (rf.getFilePointer() != rf.length()) {
                 id = rf.readInt();
@@ -165,7 +167,7 @@ public class Ejercicio4 {
             if (!bExiste) {
                 System.err.println("No existen " + scnTipo + "s en el fichero");
             } else {
-                System.out.println("Se han encontrado " + superheroes.size() + " héroes");
+                System.out.println("Se han encontrado " + superheroes.size() + " " + scnTipo + "s");
                 for (Superheroe heroe : superheroes) {
                     System.out.println(heroe.toString());
                 }
