@@ -1,0 +1,40 @@
+# Archivos y directorios generados por IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+*.iws
+out/
+
+# Archivos de compilación
+target/
+bin/
+
+# Dependencias de Maven
+# Si estás utilizando Maven, puedes agregar esto para ignorar las carpetas de dependencias.
+# Si estás utilizando Gradle u otras herramientas de construcción, ajusta esto en consecuencia.
+# /target/
+# /lib/
+# .classpath
+# .project
+
+# Archivos de configuración específicos de Eclipse
+.settings/
+
+# Carpetas y archivos de generación
+gen/
+bin/
+build/
+
+# Logs y archivos temporales
+*.log
+*.tmp
+
+# Carpeta de archivos de respaldo (por ejemplo, para editores de texto)
+*~
+
+# Archivos de configuración específicos de macOS
+.DS_Store
+
+# Archivos de configuración específicos de Windows
+Thumbs.db
