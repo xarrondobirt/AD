@@ -32,6 +32,7 @@ build/
 
 # Carpeta de archivos de respaldo (por ejemplo, para editores de texto)
 *~
+Teoria
 
 # Archivos de configuración específicos de macOS
 .DS_Store
