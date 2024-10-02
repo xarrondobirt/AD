@@ -18,11 +18,9 @@ public class EJ05 {
             System.out.println("Error: " + e.getMessage());
         }
     }
-
-
     private static ViburDBCPDataSource createDataSource() {
         ViburDBCPDataSource ds = new ViburDBCPDataSource();
-        ds.setJdbcUrl("jdbc:hsqldb:file:/ruta/a/tu/base/de/datos");
+        ds.setJdbcUrl("jdbc:hsqldb:file:/rutBD"); //ruta la BD
         ds.setUsername("root");
         ds.setPassword("root");
 
