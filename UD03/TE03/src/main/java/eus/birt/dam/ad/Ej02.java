@@ -1,54 +1,59 @@
 package eus.birt.dam.ad;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+import javax.sql.DataSource;
+
 /**
- * Crea un programa Java que te permita modificar el nombre de una asistente.
- * El programa recibe desde la línea de comandos o consola el dni del asistente.
- * A partir de ese dato mostrará por pantalla el nombre almacenado actualmente y nos pedirá un nuevo nombre.
- * Si el usuario no escribe un nuevo nombre no se realizará ninguna modificación en la BBDD.
+ * Crea un programa Java que permita cambiar la capacidad máxima de una
+ * ubicación. El programa recibirá el nombre de la ubicación, mostrará la
+ * capacidad actual y luego permitirá al usuario actualizar la capacidad máxima.
+ * Si la ubicación no existe, se informará al usuario.
  */
 public class Ej02 {
 
-    public static void main(String[] args) throws SQLException {
+	public static void main(String[] args) throws SQLException {
 
-        String querySelect = "select * from asistentes where dni = ?";
-        String queryUpdate = "update asistentes set nombre = ? where dni = ?";
-        DataSource ds = Datasource.createDataSource();
-        try (Connection con = ds.getConnection()) {
-            try (PreparedStatement stmtSelect = con.prepareStatement(querySelect)) {
+		String querySelect = "select * from ubicaciones where nombre = ?";
+		String queryUpdate = "update ubicaciones set capacidad = ? where nombre = ?";
+		DataSource ds = Datasource.createDataSource();
+		boolean ubicacionValida = false;
 
-                Scanner sc = new Scanner(System.in);
-                System.out.println("Introduce un dni");
+		// Mientras no se introduzca una ubicación que exista en BD
+		while (!ubicacionValida) {
+			try (Connection con = ds.getConnection();
+					PreparedStatement stmtSelect = con.prepareStatement(querySelect)) {
 
-                // Se busca en la BD, si no existe se para la ejecución, si existe se pide un nombre
-                String dni = sc.nextLine();
-                stmtSelect.setString(1, dni);
-                ResultSet rsSelect = stmtSelect.executeQuery();
-                if (!rsSelect.next()) {
-                    System.out.println("No hay asistentes con ese DNI");
-                    System.exit(0);
-                } else {
-                    System.out.println("DNI: " + rsSelect.getString(1) + " " + "Nombre: " + rsSelect.getString(2));
-                }
+				Scanner sc = new Scanner(System.in);
+				System.out.println("Introduce el nombre de la ubicación: ");
 
-                try (PreparedStatement stmtUpdate = con.prepareStatement(queryUpdate)) {
-                    System.out.println("Introduce un nuevo nombre");
-                    String nuevoNombre = sc.nextLine();
-                    stmtUpdate.setString(1, nuevoNombre);
-                    stmtUpdate.setString(2, dni);
-                    int updatedRows = stmtUpdate.executeUpdate();
+				String nombre = sc.nextLine();
+				stmtSelect.setString(1, nombre);
+				ResultSet rsSelect = stmtSelect.executeQuery();
+				if (!rsSelect.next()) {
+					System.out.println("No hay ubicaciones con ese nombre");
+				} else {
+					System.out.println("La capacidad actual de la ubicación '" + rsSelect.getString(2) + "' es:  "
+							+ rsSelect.getInt(4));
 
-                    System.out.println("Número de filas afectadas: " + updatedRows);
-                }
-            }
-        }
-    }
+					try (PreparedStatement stmtUpdate = con.prepareStatement(queryUpdate)) {
+						System.out.println("Introduce la nueva capacidad máxima: ");
+						int nuevaCapacidad = sc.nextInt();
+						stmtUpdate.setInt(1, nuevaCapacidad);
+						stmtUpdate.setString(2, nombre);
+
+						System.out.println("Capacidad actualizada correctamente");
+					}
+					ubicacionValida = true;
+				}
+
+			} catch (SQLException e) {
+				System.out.println("Error al realizar la operación: " + e.getMessage());
+			}
+		}
+	}
 }
-
-
