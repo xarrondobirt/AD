@@ -45,7 +45,7 @@ public class Ej02 {
 						int nuevaCapacidad = sc.nextInt();
 						stmtUpdate.setInt(1, nuevaCapacidad);
 						stmtUpdate.setString(2, nombre);
-
+						stmtUpdate.executeUpdate();
 						System.out.println("Capacidad actualizada correctamente");
 					}
 					ubicacionValida = true;
